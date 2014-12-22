@@ -1,0 +1,2 @@
+cat ../ChangeLog | sed -e '/^2/a+' -e 's/^2/* 2/g' -e 's/^- //g'
+
