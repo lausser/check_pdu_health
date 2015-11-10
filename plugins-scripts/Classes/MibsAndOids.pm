@@ -1,11 +1,16 @@
-$GLPlugin::SNMP::discover_ids = {
-};
+{
+  no warnings qw(once);
+  $Monitoring::GLPlugin::SNMP::discover_ids = {};
+  $Monitoring::GLPlugin::SNMP::mib_ids = {};
+  $Monitoring::GLPlugin::SNMP::mibs_and_oids = {};
+  $Monitoring::GLPlugin::SNMP::definitions = {};
+}
 
-$GLPlugin::SNMP::mib_ids = {
+$Monitoring::GLPlugin::SNMP::mib_ids = {
   'PDU2-MIB' => '1.3.6.1.4.1.13742.6',
 };
 
-$GLPlugin::SNMP::mibs_and_oids = {
+$Monitoring::GLPlugin::SNMP::mibs_and_oids = {
   'MIB-II' => {
       sysDescr => '1.3.6.1.2.1.1.1',
       sysObjectID => '1.3.6.1.2.1.1.2',
@@ -542,7 +547,7 @@ $GLPlugin::SNMP::mibs_and_oids = {
   },
 };
 
-$GLPlugin::SNMP::definitions = {
+$Monitoring::GLPlugin::SNMP::definitions = {
   'PDU2-MIB' => {
     'SensorTypeEnumeration' => {
       1 => 'rmsCurrent',

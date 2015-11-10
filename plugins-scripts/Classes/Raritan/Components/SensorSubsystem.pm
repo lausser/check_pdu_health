@@ -1,5 +1,5 @@
 package Classes::Raritan::Components::ExternalSensorSubsystem;
-our @ISA = qw(GLPlugin::SNMP::Item);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::Item);
 use strict;
 
 sub init {
@@ -30,7 +30,7 @@ sub check {
 }
 
 package Classes::Raritan::Components::InletSensorSubsystem;
-our @ISA = qw(GLPlugin::SNMP::Item);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::Item);
 use strict;
 
 sub init {
@@ -62,7 +62,7 @@ sub check {
 
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::ThresholdEnabledSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem Classes::Raritan::Components::EnvironmentalSubsystem::Sensor);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem Classes::Raritan::Components::EnvironmentalSubsystem::Sensor);
 
 sub check {
   my $self = shift;
@@ -141,7 +141,7 @@ sub make_thresholds {
 }
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::Sensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 sub check {
@@ -193,11 +193,11 @@ sub shorten {
 }
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::ExternalSensorMeasurement;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::ExternalSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem Classes::Raritan::Components::EnvironmentalSubsystem::Sensor);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem Classes::Raritan::Components::EnvironmentalSubsystem::Sensor);
 use strict;
 
 sub finish {
@@ -212,47 +212,47 @@ sub finish {
 }
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::InternalSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::RmsCurrentSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::PeakCurrentSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::UnbalancedCurrentSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::RmsVoltageSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::ActivePowerSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::ApparentPowerSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::PowerFactorSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::ActiveEnergySensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::ApparentEnergySensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::TemperatureSensor;
-our @ISA = qw(Classes::Raritan::Components::EnvironmentalSubsystem::ThresholdEnabledSensor GLPlugin::SNMP::TableItem);
+our @ISA = qw(Classes::Raritan::Components::EnvironmentalSubsystem::ThresholdEnabledSensor Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 sub finish2 {
   my $self = shift;
@@ -262,7 +262,7 @@ sub finish2 {
 }
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::HumiditySensor;
-our @ISA = qw(Classes::Raritan::Components::EnvironmentalSubsystem::ThresholdEnabledSensor GLPlugin::SNMP::TableItem);
+our @ISA = qw(Classes::Raritan::Components::EnvironmentalSubsystem::ThresholdEnabledSensor Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 sub finish2 {
@@ -271,107 +271,107 @@ sub finish2 {
 }
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::AirFlowSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::AirPressureSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::OnOffSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::TripSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::VibrationSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::WaterDetectionSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::SmokeDetectionSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::BinarySensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::ContactSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::FanSpeedSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::SurgeProtectorStatusSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::FrequencySensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::PhaseAngleSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::OtherSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::NoneSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::PowerQualitySensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::OverloadStatusSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::OverheatStatusSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::ScrOpenStatusSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::ScrShortStatusSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::FanStatusSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::InletPhaseSyncAngleSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::InletPhaseSyncSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::OperatingStateSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::ActiveInletSensor;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::InletSensor;
-our @ISA = qw(Classes::Raritan::Components::EnvironmentalSubsystem::Sensor GLPlugin::SNMP::TableItem);
+our @ISA = qw(Classes::Raritan::Components::EnvironmentalSubsystem::Sensor Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 sub finish {
@@ -382,7 +382,7 @@ sub finish {
 
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::InletSensorMeasurement;
-our @ISA = qw(GLPlugin::SNMP::TableItem);
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 
