@@ -1,15 +1,19 @@
 #! /usr/bin/perl
 
 use strict;
+no warnings qw(once);
 
 if ( ! grep /BEGIN/, keys %Monitoring::GLPlugin::) {
-  require Monitoring::GLPlugin;
-  require Monitoring::GLPlugin::SNMP;
-}
-if ( ! grep /BEGIN/, keys %Monitoring::GLPlugin::) {
-  printf "UNKNOWN - module Monitoring::GLPlugin was not found. Either build a standalone version of this plugin or set PERL5LIB\n";
-  printf "%s\n", $@;
-  exit 3;
+  eval {
+    require Monitoring::GLPlugin;
+    require Monitoring::GLPlugin::SNMP;
+    require Monitoring::GLPlugin::UPNP;
+  };
+  if ($@) {
+    printf "UNKNOWN - module Monitoring::GLPlugin was not found. Either build a standalone version of this plugin or set PERL5LIB\n";
+    printf "%s\n", $@;
+    exit 3;
+  }
 }
 
 my $lugin = Classes::Device->new();
@@ -21,7 +25,7 @@ my $plugin = Classes::Device->new(
         '--hostname <network-component> --community <snmp-community>'.
         '  ...]',
     version => '$Revision: #PACKAGE_VERSION# $',
-    blurb => 'This plugin checks various parameters of network components ',
+    blurb => 'This plugin checks various parameters of power distribution units ',
     url => 'http://labs.consol.de/nagios/check_pdu_health',
     timeout => 60,
 );
@@ -60,6 +64,6 @@ my ($code, $message) = $plugin->opts->multiline ?
     $plugin->check_messages(join => ', ', join_all => ', ');
 $message .= sprintf "\n%s\n", $plugin->get_info("\n")
     if $plugin->opts->verbose >= 1;
-#printf "%s\n", Data::Dumper::Dumper($plugin);
+
 $plugin->nagios_exit($code, $message);
 

@@ -87,7 +87,7 @@ sub check {
     $self->add_perfdata(label => 'sensor_'.$self->{SensorName},
         value => $self->{SensorValue},
         thresholds => 1,
-        units => $self->{SensorUnits} eq '%' ? '%' : undef,
+        uom => $self->{SensorUnits} eq '%' ? '%' : undef,
     );
   }
 }
@@ -157,7 +157,7 @@ sub check {
       $self->add_perfdata(label => $label,
           value => $self->{SensorValue},
           thresholds => 0,
-          units => $self->{SensorUnits} eq '%' ? '%' : undef,
+          uom => $self->{SensorUnits} eq '%' ? '%' : undef,
       );
     } else {
       $self->add_info(sprintf '%s sensor %s is %s',
