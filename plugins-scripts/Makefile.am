@@ -10,6 +10,8 @@ GL_MODULES=\
   ../lib/Monitoring/GLPlugin/SNMP/Item.pm \
   ../lib/Monitoring/GLPlugin/SNMP/TableItem.pm
 EXTRA_MODULES=\
+  Classes/Sentry4/Components/EnvironmentalSubsystem.pm \
+  Classes/Sentry4.pm \
   Classes/Sentry3/Components/EnvironmentalSubsystem.pm \
   Classes/Sentry3.pm \
   Classes/Raritan/Components/SensorSubsystem.pm \
