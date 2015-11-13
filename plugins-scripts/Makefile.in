@@ -243,8 +243,10 @@ GL_MODULES = \
 
 EXTRA_MODULES = \
   Classes/Sentry4/Components/EnvironmentalSubsystem.pm \
+  Classes/Sentry4/Components/PowerSubsystem.pm \
   Classes/Sentry4.pm \
   Classes/Sentry3/Components/EnvironmentalSubsystem.pm \
+  Classes/Sentry3/Components/PowerSubsystem.pm \
   Classes/Sentry3.pm \
   Classes/Raritan/Components/SensorSubsystem.pm \
   Classes/Raritan.pm \

@@ -9,7 +9,7 @@ sub init {
       $self->add_ok('hardware working fine');
     }
   } elsif ($self->mode =~ /device::battery::health/) {
-    $self->analyze_and_check_environmental_subsystem('Classes::Sentry3::Components::InletSensorSubsystem');
+    $self->analyze_and_check_environmental_subsystem('Classes::Sentry3::Components::PowerSubsystem');
     if (! $self->check_messages()) {
       $self->add_ok('hardware working fine');
     }
