@@ -7,141 +7,181 @@ sub init {
   $self->get_snmp_objects('Sentry4-MIB', qw(
       st4TempSensorScale st4TempSensorHysteresis));
   $self->get_snmp_tables('Sentry4-MIB', [
-    ['configs', 'st4UnitConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['monitors', 'st4UnitMonitorTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['eventconfigs', 'st4UnitEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['cordconfigs', 'st4InputCordConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['cordmonitor', 'st4InputCordMonitorTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['cordeventconfigs', 'st4InputCordEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['lineconfigs', 'st4LineConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['linemonitors', 'st4LineMonitorTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['lineeventconfigs', 'st4LineEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['phaseconfigs', 'st4PhaseConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['phasemonitors', 'st4PhaseMonitorTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['phaseeventconfigs', 'st4PhaseEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['cpconfigs', 'st4OcpConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['ocpmonitors', 'st4OcpMonitorTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['ocpeventmon', 'st4OcpEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['branchconfigs', 'st4BranchConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['branchmonitors', 'st4BranchMonitorTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['brancheventconfigs', 'st4BranchEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['outletconfigs', 'st4OutletConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['outletmonitors', 'st4OutletMonitorTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['outleteventconfigs', 'st4OutletEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['outletcontrols', 'st4OutletControlTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
+    ['unitconfigs', 'st4UnitConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
+    ['unitmonitors', 'st4UnitMonitorTable', 'Classes::Sentry4::Components::EnvironmentalSubsystem::Unit'],
+    ['uniteventconfigs', 'st4UnitEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
+
     ['tempsensorconfigs', 'st4TempSensorConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['tempsensormonitors', 'st4TempSensorMonitorTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
+    ['tempsensormonitors', 'st4TempSensorMonitorTable', 'Classes::Sentry4::Components::EnvironmentalSubsystem::TempSensor', sub { my $o = shift; $o->{st4TempSensorValue} != -41 && $o->{st4TempSensorStatus} ne 'notFound'}],
     ['tempsensoreventconfigs', 'st4TempSensorEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['humidsensorconfogs', 'st4HumidSensorConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['humidsensormonitors', 'st4HumidSensorMonitorTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['humidsensorenetconifs', 'st4HumidSensorEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['water', 'st4WaterSensorConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['watermon', 'st4WaterSensorMonitorTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['waterevtcon', 'st4WaterSensorEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['ccsensorconfis', 'st4CcSensorConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['ccmonitors', 'st4CcSensorMonitorTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['ccevtconfigs', 'st4CcSensorEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['dcsensorconfis', 'st4DcSensorConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['dcmonitors', 'st4DcSensorMonitorTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
-    ['dcevtconfigs', 'st4DcSensorEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
+
+    ['humidsensorconfigs', 'st4HumidSensorConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
+    ['humidsensormonitors', 'st4HumidSensorMonitorTable', 'Classes::Sentry4::Components::EnvironmentalSubsystem::HumidSensor', sub { my $o = shift; $o->{st4HumidSensorValue} != -1 && $o->{st4HumidSensorStatus} ne 'notFound'}],
+    ['humidsensoreventconfigs', 'st4HumidSensorEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
+
+    ['watersensorconfigs', 'st4WaterSensorConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
+    ['watersensormonitors', 'st4WaterSensorMonitorTable', 'Classes::Sentry4::Components::EnvironmentalSubsystem::WaterSensor'],
+    ['watersensoreventconfigs', 'st4WaterSensorEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
+
+    ['ccsensorconfigs', 'st4CcSensorConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
+    ['ccsensormonitors', 'st4CcSensorMonitorTable', 'Classes::Sentry4::Components::EnvironmentalSubsystem::CcSensor'],
+    ['ccsensoreventconfigs', 'st4CcSensorEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
+    ['adcsensorconfigs', 'st4DcSensorConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
+    ['adcsensormonitors', 'st4DcSensorMonitorTable', 'Classes::Sentry4::Components::EnvironmentalSubsystem::AdcSensor'],
+    ['adcsensoreventconfigs', 'st4DcSensorEventConfigTable', 'Monitoring::GLPlugin::SNMP::TableItem'],
   ]);
-  foreach my $tsc (@{$self->{tempsensorconfigs}}) {
-    foreach my $tsm (grep { $tsc->{flat_indices} eq $_->{flat_indices} } @{$self->{tempsensormonitors}}) {
-      map { $tsc->{$_} = $tsm->{$_} } keys %{$tsm};
-    }
-    foreach my $tsec (grep { $tsc->{flat_indices} eq $_->{flat_indices} } @{$self->{tempsensoreventconfigs}}) {
-      map { $tsc->{$_} = $tsec->{$_} } keys %{$tsec};
-    }
-    $tsc->dump();
-  }
-  delete $self->{tempsensormonitors};
-  delete $self->{tempsensoreventconfigs};
-die;
+  map {
+      $_->{st4TempSensorScale} = $self->{st4TempSensorScale}
+  } @{$self->{tempsensormonitors}};
+  $self->merge(qw(unitmonitors unitconfigs uniteventconfigs));
+  $self->merge(qw(tempsensormonitors tempsensorconfigs tempsensoreventconfigs));
+  $self->merge(qw(humidsensormonitors humidsensorconfigs humidsensoreventconfigs));
+  $self->merge(qw(watersensormonitors watersensorconfigs watersensoreventconfigs));
+  $self->merge(qw(ccsensormonitors ccsensorconfigs ccsensoreventconfigs));
+  $self->merge(qw(adcsensormonitors adcsensorconfigs adcsensoreventconfigs));
 }
+
+sub merge {
+  my $self = shift;
+  my($monitors, $configs, $eventconfigs) = @_;
+  foreach my $sm (@{$self->{$monitors}}) {
+    foreach my $sc (grep { $sm->{flat_indices} eq $_->{flat_indices} } @{$self->{$configs}}) {
+      map { $sm->{$_} = $sc->{$_} } keys %{$sc};
+    }
+    foreach my $sec (grep { $sm->{flat_indices} eq $_->{flat_indices} } @{$self->{$eventconfigs}}) {
+      map { $sm->{$_} = $sec->{$_} } keys %{$sec};
+    }
+  }
+  delete $self->{$configs};
+  delete $self->{$eventconfigs};
+}
+
+
+package Classes::Sentry4::Components::EnvironmentalSubsystem::Unit;
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 
 sub check {
   my $self = shift;
-  foreach (@{$self->{temphumidsensors}}) {
-    $_->check();
+  $self->add_info(sprintf 'unit %s status is %s',
+      $self->{st4UnitName}, $self->{st4UnitStatus});
+  if ($self->{st4UnitStatus} =~ /normal|disabled|purged|reading|settle/) {
+    $self->add_ok();
+  } elsif ($self->{st4UnitStatus} =~ /lowWarning|highWarning/) {
+    $self->add_warning();
+  } elsif ($self->{st4UnitStatus} =~ /readError|pwrError|breakerTripped|fuseBlown|lowAlarm|highAlarm|alarm|underLimit|overLimit|nvmFail|profileError|conflict/) {
+    $self->add_critical();
+  } elsif ($self->{st4UnitStatus} =~ /notFound|lost|noComm|/) {
+    $self->add_unknown();
   }
 }
 
-package Classes::Sentry4::Components::EnvironmentalSubsystem::EnvMon;
-our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
-
-sub finish {
-  my $self = shift;
-  $self->{sensors} = [];
-}
 
 package Classes::Sentry4::Components::EnvironmentalSubsystem::Sensor;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 
+sub check {
+  my $self = shift;
+  $self->add_info(sprintf '%s status is %s',
+      $self->{name}, $self->{status});
+  if ($self->{status} =~ /normal|disabled|purged|reading|settle/) {
+    $self->add_ok();
+  } elsif ($self->{status} =~ /lowWarning|highWarning/) {
+    $self->add_warning();
+  } elsif ($self->{status} =~ /readError|pwrError|breakerTripped|fuseBlown|lowAlarm|highAlarm|alarm|underLimit|overLimit|nvmFail|profileError|conflict/) {
+    $self->add_critical();
+  } elsif ($self->{status} =~ /notFound|lost|noComm|/) {
+    $self->add_unknown();
+  }
+}
+
+package Classes::Sentry4::Components::EnvironmentalSubsystem::TempSensor;
+our @ISA = qw(Classes::Sentry4::Components::EnvironmentalSubsystem::Sensor);
+
 sub finish {
   my $self = shift;
-  $self->{name} = $self->{tempHumidSensorName} || $self->{tempHumidSensorID};
-  $self->{tempHumidSensorTempScale} ||= 'celsius';
-  $self->{tempHumidSensorTempValue} /= 10 if $self->{tempHumidSensorTempValue};
+  $self->{st4TempSensorValue} /= 10;
+  # a st4TempSensorValue of -410 means: the temperature reading is invalid
+  # thats why there is a filter sub != 41
+  $self->{status} = $self->{st4TempSensorStatus};
 }
 
 sub check {
   my $self = shift;
-  $self->add_info(sprintf 'sensor %s status is %s',
-      $self->{name}, $self->{tempHumidSensorStatus});
-  if ($self->{tempHumidSensorStatus} eq 'lost') {
-    $self->add_critical();
-  } elsif ($self->{tempHumidSensorStatus} eq 'noComm') {
-    $self->add_critical();
-  } else {
-    if ($self->{tempHumidSensorHumidValue} != -1) {
-      $self->set_thresholds(
-          metric => 'hum_'.$self->{name},
-          warning => $self->{tempHumidSensorHumidLowThresh}.':',
-          critical => $self->{tempHumidSensorHumidHighThresh},
-      );
-      $self->add_info(sprintf 'humidity sensor %s shows %s%%',
-          $self->{name}, $self->{tempHumidSensorHumidValue});
-      if ($self->{tempHumidSensorHumidStatus} eq 'normal') {
-        $self->add_ok();
-      } elsif ($self->{tempHumidSensorHumidStatus} eq 'humidLow') {
-        $self->add_critical();
-      } elsif ($self->{tempHumidSensorHumidStatus} eq 'humidHigh') {
-        $self->add_critical();
-      } else {
-        $self->add_unknown();
-      }
-      $self->add_perfdata(label => 'hum_'.$self->{name},
-          value => $self->{tempHumidSensorHumidValue},
-          uom => '%',
-      );
-    } else {
-      $self->add_unknown();
-    }
-    if ($self->{tempHumidSensorTempValue} != -1) {
-      $self->set_thresholds(
-          metric => 'temp_'.$self->{name},
-          warning => $self->{tempHumidSensorTempLowThresh}.':',
-          critical => $self->{tempHumidSensorTempHighThresh},
-      );
-      $self->add_info(sprintf 'temperature sensor %s shows %s %s',
-          $self->{name}, $self->{tempHumidSensorTempValue},
-          $self->{tempHumidSensorTempScale});
-      if ($self->{tempHumidSensorTempStatus} eq 'normal') {
-        $self->add_ok();
-      } elsif ($self->{tempHumidSensorTempStatus} eq 'humidLow') {
-        $self->add_critical();
-      } elsif ($self->{tempHumidSensorTempStatus} eq 'humidHigh') {
-        $self->add_critical();
-      } else {
-        $self->add_unknown();
-      }
-      $self->add_perfdata(label => 'temp_'.$self->{name},
-          value => $self->{tempHumidSensorTempValue},
-      );
-    } else {
-      $self->add_unknown();
-    }
-  }
+  $self->{name} = $self->{st4TempSensorName} || 'temp_'.$self->{st4TempSensorID};
+  $self->SUPER::check();
+  $self->set_thresholds(
+      metric => $self->{name},
+      warning => $self->{st4TempSensorLowWarning}.':'.$self->{st4TempSensorHighWarning},
+      critical => $self->{st4TempSensorLowAlarm}.':'.$self->{st4TempSensorHighAlarm},
+  );
+  $self->add_perfdata(label => $self->{name},
+      value => $self->{st4TempSensorValue},
+  );
+}
+
+package Classes::Sentry4::Components::EnvironmentalSubsystem::HumidSensor;
+our @ISA = qw(Classes::Sentry4::Components::EnvironmentalSubsystem::Sensor);
+
+sub finish {
+  my $self = shift;
+  $self->{status} = $self->{st4HumidSensorStatus};
+}
+
+sub check {
+  my $self = shift;
+  $self->{name} = $self->{st4HumidSensorName} || 'humid_'.$self->{st4HumidSensorID};
+  $self->SUPER::check();
+  $self->set_thresholds(
+      metric => $self->{name},
+      warning => $self->{st4HumidSensorLowWarning}.':'.$self->{st4HumidSensorHighWarning},
+      critical => $self->{st4HumidSensorLowAlarm}.':'.$self->{st4HumidSensorHighAlarm},
+  );
+  $self->add_perfdata(label => $self->{name},
+      value => $self->{st4HumidSensorValue},
+      uom => '%',
+  );
+}
+
+package Classes::Sentry4::Components::EnvironmentalSubsystem::WaterSensor;
+our @ISA = qw(Classes::Sentry4::Components::EnvironmentalSubsystem::Sensor);
+
+sub finish {
+  my $self = shift;
+  $self->{status} = $self->{st4WaterSensorStatus};
+}
+
+sub check {
+  my $self = shift;
+  $self->{name} = $self->{st4WaterSensorName} || 'water_'.$self->{st4WaterSensorID};
+  $self->SUPER::check();
+}
+
+package Classes::Sentry4::Components::EnvironmentalSubsystem::CcSensor;
+our @ISA = qw(Classes::Sentry4::Components::EnvironmentalSubsystem::Sensor);
+
+sub finish {
+  my $self = shift;
+  $self->{status} = $self->{st4CcSensorStatus};
+}
+
+sub check {
+  my $self = shift;
+  $self->{name} = $self->{st4CcSensorName} || 'cc_'.$self->{st4CcSensorID};
+  $self->SUPER::check();
+}
+
+package Classes::Sentry4::Components::EnvironmentalSubsystem::AdcSensor;
+our @ISA = qw(Classes::Sentry4::Components::EnvironmentalSubsystem::Sensor);
+
+sub finish {
+  my $self = shift;
+  $self->{status} = $self->{st4AdcSensorStatus};
+}
+
+sub check {
+  my $self = shift;
+  $self->{name} = $self->{st4AdcSensorName} || 'dc_'.$self->{st4AdcSensorID};
+  $self->SUPER::check();
 }
 
 1;
