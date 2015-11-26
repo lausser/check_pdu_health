@@ -56,9 +56,9 @@ sub check {
   if ($self->{envMonWaterSensorName}) {
     $self->add_info(sprintf '%s status is %s',
         $self->{envMonWaterSensorName}, $self->{envMonWaterSensorStatus});
-    if ($self->{contactClosureStatus} eq 'normal') {
+    if ($self->{envMonWaterSensorStatus} eq 'normal') {
       $self->add_ok();
-    } elsif ($self->{contactClosureStatus} eq 'alarm') {
+    } elsif ($self->{envMonWaterSensorStatus} eq 'alarm') {
       $self->add_critical();
     } else {
       $self->add_unknown();
@@ -67,9 +67,9 @@ sub check {
   if ($self->{envMonADCName}) {
     $self->add_info(sprintf '%s status is %s',
         $self->{envMonADCName}, $self->{envMonADCStatus});
-    if ($self->{contactClosureStatus} eq 'normal') {
+    if ($self->{envMonADCStatus} eq 'normal') {
       $self->add_ok();
-    } elsif ($self->{contactClosureStatus} eq 'alarm') {
+    } elsif ($self->{envMonADCStatus} eq 'alarm') {
       $self->add_critical();
     } else {
       $self->add_unknown();
