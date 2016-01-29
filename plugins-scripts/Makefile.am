@@ -6,6 +6,13 @@ GL_MODULES=\
   ../lib/Monitoring/GLPlugin/Item.pm \
   ../lib/Monitoring/GLPlugin/TableItem.pm \
   ../lib/Monitoring/GLPlugin/SNMP.pm \
+  ../lib/Monitoring/GLPlugin/SNMP/MibsAndOids.pm \
+  ../lib/Monitoring/GLPlugin/SNMP/MibsAndOids/MIB2MIB.pm \
+  ../lib/Monitoring/GLPlugin/SNMP/MibsAndOids/SNMPFRAMEWORKMIB.pm \
+  ../lib/Monitoring/GLPlugin/SNMP/MibsAndOids/PDU2MIB.pm \
+  ../lib/Monitoring/GLPlugin/SNMP/MibsAndOids/SENTRY3MIB.pm \
+  ../lib/Monitoring/GLPlugin/SNMP/MibsAndOids/SENTRY4MIB.pm \
+  ../lib/Monitoring/GLPlugin/SNMP/MibsAndOids/POWERNETMIB.pm \
   ../lib/Monitoring/GLPlugin/SNMP/CSF.pm \
   ../lib/Monitoring/GLPlugin/SNMP/Item.pm \
   ../lib/Monitoring/GLPlugin/SNMP/TableItem.pm
@@ -23,7 +30,6 @@ EXTRA_MODULES=\
   Classes/Sentry3.pm \
   Classes/Raritan/Components/SensorSubsystem.pm \
   Classes/Raritan.pm \
-  Classes/MibsAndOids.pm \
   Classes/Device.pm
 
 SED=/bin/sed

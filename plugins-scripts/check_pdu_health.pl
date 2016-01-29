@@ -7,7 +7,6 @@ if ( ! grep /BEGIN/, keys %Monitoring::GLPlugin::) {
   eval {
     require Monitoring::GLPlugin;
     require Monitoring::GLPlugin::SNMP;
-    require Monitoring::GLPlugin::UPNP;
   };
   if ($@) {
     printf "UNKNOWN - module Monitoring::GLPlugin was not found. Either build a standalone version of this plugin or set PERL5LIB\n";

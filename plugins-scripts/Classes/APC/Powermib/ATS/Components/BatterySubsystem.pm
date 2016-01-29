@@ -19,46 +19,77 @@ sub init {
 # atsConfigPhaseTable -> bezug zo atsOutputPhaseTable
       ["atsInputTable", "atsInputTable", "Monitoring::GLPlugin::SNMP::TableItem"],
 # atsInputFrequency atsInputName
-      ["atsInputPhaseTable", "atsInputPhaseTable", "Monitoring::GLPlugin::SNMP::TableItem"],
+      ["atsInputPhaseTable", "atsInputPhaseTable", "Classes::APC::Powermib::ATS::Components::BatterySubsystem::Input"],
 # atsInputVoltage, atsInputMaxVoltage atsInputMinVoltage , -1 heisst not avail
 # atsInputCurrent atsInputMinCurrent atsInputMaxCurrent
 # atsInputPower atsInputMaxPower atsInputMinPower
       ["atsOutputTable", "atsOutputTable", "Monitoring::GLPlugin::SNMP::TableItem"],
-      ["atsOutputPhaseTable", "atsOutputPhaseTable", "Monitoring::GLPlugin::SNMP::TableItem"],
-atsOutputPercentLoad atsOutputPercentPower
-atsOutputCurrent atsOutputLoad atsOutputPower atsOutputVoltage
+      ["atsOutputPhaseTable", "atsOutputPhaseTable", "Classes::APC::Powermib::ATS::Components::BatterySubsystem::Output"],
+#atsOutputPercentLoad atsOutputPercentPower
+#atsOutputCurrent atsOutputLoad atsOutputPower atsOutputVoltage
       ["atsOutputBankTable", "atsOutputBankTable", "Monitoring::GLPlugin::SNMP::TableItem"],
   ]);
 
 }
 
+
+package Classes::APC::Powermib::ATS::Components::BatterySubsystem::InOutput;
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
+use strict;
+
+
 sub check {
   my $self = shift;
   my $info = undef;
-  $self->add_info('checking hardware and self-tests');
-  $self->add_info('status is '.$self->{atsStatusHardwareStatus});
-  foreach my $item (qw(atsStatus24VPowerSupply atsStatus24VSourceBPowerSupply
-      atsStatus5VPowerSupply atsStatusMinus12VPowerSupply atsStatusPlus12VPowerSupply)) {
-    $self->add_info(sprintf "%s is %s", $item, $self->{$item});
-    if ($self->{$item} ne "atsPowerSupplyOK") {
-      $self->add_critical();
+  foreach my $metric (@{$self->{metrics}}) {
+    next if $self->{'ats'.$self->{prefix}.$metric} == -1;
+    my $critical = undef;
+    my $critical_min = (exists $self->{'ats'.$self->{prefix}.'Min'.$metric} && $self->{'ats'.$self->{prefix}.'Min'.$metric} != -1) ?
+        $self->{'ats'.$self->{prefix}.'Min'.$metric} : undef;
+    my $critical_max = (exists $self->{'ats'.$self->{prefix}.'Max'.$metric} && $self->{'ats'.$self->{prefix}.'Max'.$metric} != -1) ?
+        $self->{'ats'.$self->{prefix}.'Max'.$metric} : undef;
+    if (defined $critical_min) {
+      $critical = $critical_min.':';
     }
-  }
-  foreach my $item (qw(atsStatusHardwareStatus atsStatusSourceAStatus
-      atsStatusSourceBStatus atsStatusSwitchStatus atsStatusVoltageOutStatus)) {
-    $self->add_info(sprintf "%s is %s", $item, $self->{$item});
-    if ($self->{$item} ne "ok") {
-      $self->add_critical();
+    if (defined $critical_max) {
+      $critical = $critical ? $critical.$critical_max : $critical_max;
     }
-  }
-  foreach my $item (qw(atsStatusRedundancyState)) {
-    $self->add_info(sprintf "%s is %s", $item, $self->{$item});
-    if ($self->{$item} ne "atsFullyRedundant") {
-      $self->add_warning();
-    }
+    $self->set_thresholds(
+        metric => $self->{prefix}.$self->{serial}.'_'.$metric,
+        critical => $critical
+    ) if defined $critical;
+    $self->add_perfdata(
+        label => lc $self->{prefix}.$self->{serial}.'_'.$metric,
+        value => $self->{'ats'.$self->{prefix}.$metric},
+        uom => lc $metric =~ /percent/ ? '%' : undef,
+    ) if defined $self->{'ats'.$self->{prefix}.$metric};
   }
   if (! $self->check_messages()) {
     $self->add_ok("hardware working fine");
   }
 }
+
+package Classes::APC::Powermib::ATS::Components::BatterySubsystem::Input;
+our @ISA = qw(Classes::APC::Powermib::ATS::Components::BatterySubsystem::InOutput);
+use strict;
+
+sub finish {
+  my $self = shift;
+  $self->{metrics} = ['Current', 'Power', 'Voltage'];
+  $self->{prefix} = 'Input';
+  $self->{serial} = $self->{flat_indices};
+  $self->{serial} =~ s/\..+$//g;
+}
+
+package Classes::APC::Powermib::ATS::Components::BatterySubsystem::Output;
+our @ISA = qw(Classes::APC::Powermib::ATS::Components::BatterySubsystem::InOutput);
+use strict;
+
+sub finish {
+  my $self = shift;
+  $self->{metrics} = ['Current', 'Power', 'Voltage', 'Load', 'PercentLoad', 'PercentPower'];
+  $self->{prefix} = 'Output';
+  $self->{serial} = '';
+}
+
 
