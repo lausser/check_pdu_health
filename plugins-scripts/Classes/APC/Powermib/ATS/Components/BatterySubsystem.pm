@@ -10,26 +10,9 @@ sub init {
       atsNumInputs atsNumOutputs atsOutputBankTableSize
   )));
   $self->get_snmp_tables("PowerNet-MIB", [
-      #["alarms", "upsAlarmTable", "Classes::Socomec::Netvision::Components::EnvironmentalSubsystem::Alarm"],
-      ["calibrationinputphases", "atsCalibrationInputPhaseTable", "Monitoring::GLPlugin::SNMP::TableItem"],
-      ["powersupplyvoltagess", "atsCalibrationPowerSupplyVoltageTable", "Monitoring::GLPlugin::SNMP::TableItem"],
-      ["calibrationoutputs", "atsCalibrationOutputTable", "Monitoring::GLPlugin::SNMP::TableItem"],
-      ["atsConfigBankTable", "atsConfigBankTable", "Monitoring::GLPlugin::SNMP::TableItem"],
-      ["atsConfigPhaseTable", "atsConfigPhaseTable", "Monitoring::GLPlugin::SNMP::TableItem"],
-# atsConfigPhaseTable -> bezug zo atsOutputPhaseTable
-      ["atsInputTable", "atsInputTable", "Monitoring::GLPlugin::SNMP::TableItem"],
-# atsInputFrequency atsInputName
       ["atsInputPhaseTable", "atsInputPhaseTable", "Classes::APC::Powermib::ATS::Components::BatterySubsystem::Input"],
-# atsInputVoltage, atsInputMaxVoltage atsInputMinVoltage , -1 heisst not avail
-# atsInputCurrent atsInputMinCurrent atsInputMaxCurrent
-# atsInputPower atsInputMaxPower atsInputMinPower
-      ["atsOutputTable", "atsOutputTable", "Monitoring::GLPlugin::SNMP::TableItem"],
       ["atsOutputPhaseTable", "atsOutputPhaseTable", "Classes::APC::Powermib::ATS::Components::BatterySubsystem::Output"],
-#atsOutputPercentLoad atsOutputPercentPower
-#atsOutputCurrent atsOutputLoad atsOutputPower atsOutputVoltage
-      ["atsOutputBankTable", "atsOutputBankTable", "Monitoring::GLPlugin::SNMP::TableItem"],
   ]);
-
 }
 
 
@@ -61,7 +44,7 @@ sub check {
     $self->add_perfdata(
         label => lc $self->{prefix}.$self->{serial}.'_'.$metric,
         value => $self->{'ats'.$self->{prefix}.$metric},
-        uom => lc $metric =~ /percent/ ? '%' : undef,
+        uom => ($metric =~ /percent/i) ? '%' : undef,
     ) if defined $self->{'ats'.$self->{prefix}.$metric};
   }
   if (! $self->check_messages()) {
