@@ -14,6 +14,10 @@ sub classify {
       }
       if ($self->opts->mode =~ /^my-/) {
         $self->load_my_extension();
+      } elsif ($self->get_snmp_object('PowerNet-MIB', 'atsIdentModelNumber') ||
+          $self->get_snmp_object('PowerNet-MIB', 'atsIdentSerialNumber')) {
+        bless $self, 'Classes::APC::Powermib::ATS';
+        $self->debug('using Classes::APC::Powermib::ATS');
       } elsif ($self->implements_mib('PDU2-MIB')) {
         bless $self, 'Classes::Raritan';
         $self->debug('using Classes::Raritan');

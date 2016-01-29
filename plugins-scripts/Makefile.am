@@ -10,6 +10,11 @@ GL_MODULES=\
   ../lib/Monitoring/GLPlugin/SNMP/Item.pm \
   ../lib/Monitoring/GLPlugin/SNMP/TableItem.pm
 EXTRA_MODULES=\
+  Classes/APC/Powermib/ATS/Components/BatterySubsystem.pm \
+  Classes/APC/Powermib/ATS/Components/EnvironmentalSubsystem.pm \
+  Classes/APC/Powermib/ATS.pm \
+  Classes/APC/Powermib.pm \
+  Classes/APC.pm \
   Classes/Sentry4/Components/EnvironmentalSubsystem.pm \
   Classes/Sentry4/Components/PowerSubsystem.pm \
   Classes/Sentry4.pm \
