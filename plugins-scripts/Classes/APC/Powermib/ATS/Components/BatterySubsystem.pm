@@ -15,6 +15,13 @@ sub init {
   ]);
 }
 
+sub check {
+  my $self = shift;
+  $self->SUPER::check();
+  if (! $self->check_messages()) {
+    $self->add_ok("hardware working fine");
+  }
+}
 
 package Classes::APC::Powermib::ATS::Components::BatterySubsystem::InOutput;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
