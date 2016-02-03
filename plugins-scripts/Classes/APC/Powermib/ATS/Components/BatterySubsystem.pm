@@ -15,6 +15,12 @@ sub init {
   ]);
 }
 
+sub check {
+  my $self = shift;
+  $self->SUPER::check();
+  $self->reduce_messages();
+}
+
 
 package Classes::APC::Powermib::ATS::Components::BatterySubsystem::InOutput;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
@@ -37,18 +43,33 @@ sub check {
     if (defined $critical_max) {
       $critical = $critical ? $critical.$critical_max : $critical_max;
     }
+    $critical = 90 if ! defined $critical && $metric =~ /percent/i;
     $self->set_thresholds(
-        metric => $self->{prefix}.$self->{serial}.'_'.$metric,
+        metric => lc $self->{prefix}.$self->{serial}.'_'.$metric,
+        warning => $critical,
         critical => $critical
     ) if defined $critical;
+    if (my $level = $self->check_thresholds(
+        metric => lc $self->{prefix}.$self->{serial}.'_'.$metric,
+        value => $self->{'ats'.$self->{prefix}.$metric})) {
+      $self->add_message($level,
+          sprintf "%s value %s is outside of range %s", $metric,
+          $self->{'ats'.$self->{prefix}.$metric},
+          $level == 1 ?
+              ($self->get_thresholds(
+                  metric => lc $self->{prefix}.$self->{serial}.'_'.$metric)
+              )[0]
+              :
+              ($self->get_thresholds(
+                  metric => lc $self->{prefix}.$self->{serial}.'_'.$metric)
+              )[1]
+      );
+    }
     $self->add_perfdata(
         label => lc $self->{prefix}.$self->{serial}.'_'.$metric,
         value => $self->{'ats'.$self->{prefix}.$metric},
         uom => ($metric =~ /percent/i) ? '%' : undef,
     ) if defined $self->{'ats'.$self->{prefix}.$metric};
-  }
-  if (! $self->check_messages()) {
-    $self->add_ok("hardware working fine");
   }
 }
 

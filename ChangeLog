@@ -1,3 +1,7 @@
+* 2015-02-02 2.1
+  add alerts for apc ats metrics
+* 2015-02-01 2.0.1
+  better thresholds for apc ats power/load
 * 2015-01-29 2.0
   support APC ATS, new autoload GLPlugin
 * 2015-11-12 1.2
