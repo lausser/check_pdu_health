@@ -26,7 +26,6 @@ package Classes::APC::Powermib::ATS::Components::BatterySubsystem::InOutput;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
-
 sub check {
   my $self = shift;
   my $info = undef;
