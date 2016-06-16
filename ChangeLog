@@ -1,3 +1,5 @@
+* 2016-06-16 2.3.0.1
+  bugfix for damocles without any sensors
 * 2016-06-16 2.3
   support HWD Damocles
 * 2016-06-03 2.2.0.1

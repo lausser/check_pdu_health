@@ -14,8 +14,12 @@ sub init {
 sub check {
   my ($self) = @_;
   $self->SUPER::check();
-  $self->reduce_messages_short(sprintf "checked %d sensors, all of them are ok",
-      scalar(@{$self->{sensors}}));
+  if (scalar(@{$self->{sensors}})) {
+    $self->reduce_messages_short(sprintf "checked %d sensors, all of them are ok",
+        scalar(@{$self->{sensors}}));
+  } else {
+    $self->add_ok("this device does not have any sensors");
+  }
 }
 
 package Classes::HWG::Damocles::Components::SensorSubsystem::Sensor;
