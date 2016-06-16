@@ -36,10 +36,10 @@ $plugin->add_mode(
     help => 'Check the status of environmental equipment (fans, temperatures, power, selftests)',
 );
 $plugin->add_mode(
-    internal => 'device::battery::health',
-    spec => 'battery-health',
-    alias => ['power-health'],
-    help => 'Check the status of battery equipment (batteries, currencies)',
+    internal => 'device::power::health',
+    spec => 'power-health',
+    alias => ['battery-health'],
+    help => 'Check the status of power in/out',
 );
 $plugin->add_snmp_modes();
 $plugin->add_snmp_args();

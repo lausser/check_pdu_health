@@ -8,7 +8,7 @@ sub init {
     if (! $self->check_messages()) {
       $self->add_ok('hardware working fine');
     }
-  } elsif ($self->mode =~ /device::battery::health/) {
+  } elsif ($self->mode =~ /device::power::health/) {
     $self->analyze_and_check_environmental_subsystem('Classes::Raritan::Components::InletSensorSubsystem');
     if (! $self->check_messages()) {
       $self->add_ok('hardware working fine');

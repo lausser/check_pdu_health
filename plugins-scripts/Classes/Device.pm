@@ -27,6 +27,9 @@ sub classify {
       } elsif ($self->implements_mib('Sentry4-MIB')) {
         bless $self, 'Classes::Sentry4';
         $self->debug('using Classes::Sentry4');
+      } elsif ($self->implements_mib('DAMOCLES-MIB')) {
+        bless $self, 'Classes::HWG::Damocles';
+        $self->debug('using Classes::HWG::Damocles');
       } else {
         if (my $class = $self->discover_suitable_class()) {
           bless $self, $class;

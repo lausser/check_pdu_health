@@ -10,6 +10,7 @@ GL_MODULES=\
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/Item.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/TableItem.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids.pm \
+  ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/DAMOCLESMIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/MIB2MIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/SNMPFRAMEWORKMIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/PDU2MIB.pm \
@@ -17,6 +18,10 @@ GL_MODULES=\
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/SENTRY4MIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/POWERNETMIB.pm
 EXTRA_MODULES=\
+  Classes/HWG/Damocles/Components/SensorSubsystem.pm \
+  Classes/HWG/Damocles/Components/PowerSubsystem.pm \
+  Classes/HWG/Damocles.pm \
+  Classes/HWG.pm \
   Classes/APC/Powermib/ATS/Components/BatterySubsystem.pm \
   Classes/APC/Powermib/ATS/Components/EnvironmentalSubsystem.pm \
   Classes/APC/Powermib/ATS.pm \
