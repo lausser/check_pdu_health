@@ -5,8 +5,12 @@ use strict;
 sub init {
   my ($self) = @_;
   $self->get_snmp_tables('DAMOCLES-MIB', [
-      ['inputs', 'inpTable', 'Classes::HWG::Damocles::Components::PowerSubsystem::Input'],
-      ['outputs', 'outTable', 'Classes::HWG::Damocles::Components::PowerSubsystem::Output'],
+      ['inputs', 'inpTable', 'Classes::HWG::Damocles::Components::PowerSubsystem::Input', sub {
+          return $self->filter_name(shift->{inpName})
+      }],
+      ['outputs', 'outTable', 'Classes::HWG::Damocles::Components::PowerSubsystem::Output', sub {
+          return $self->filter_name(shift->{outName})
+      }],
   ]);
 }
 
@@ -14,7 +18,7 @@ sub check {
   my ($self) = @_;
   $self->SUPER::check();
   $self->reduce_messages_short(sprintf "checked %d inputs and %d outputs, all of them are ok",
-      scalar(@{$self->{inputs}}), scalar(@{$self->{inputs}}));
+      scalar(@{$self->{inputs}}), scalar(@{$self->{outputs}}));
 }
 
 package Classes::HWG::Damocles::Components::PowerSubsystem::Input;

@@ -1,3 +1,5 @@
+* 2016-06-23 2.3.1
+  allow --name selecting of in/outputs for damocles
 * 2016-06-16 2.3.0.1
   bugfix for damocles without any sensors
 * 2016-06-16 2.3
