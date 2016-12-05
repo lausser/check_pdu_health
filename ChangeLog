@@ -1,3 +1,7 @@
+* 2016-12-05 2.4
+  support Emerson Liebert
+* 2016-08-12 2.3.1.1
+  update GLPlugin/Extraopts
 * 2016-06-23 2.3.1
   allow --name selecting of in/outputs for damocles
 * 2016-06-16 2.3.0.1

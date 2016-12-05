@@ -30,6 +30,9 @@ sub classify {
       } elsif ($self->implements_mib('DAMOCLES-MIB')) {
         bless $self, 'Classes::HWG::Damocles';
         $self->debug('using Classes::HWG::Damocles');
+      } elsif ($self->implements_mib('LIEBERT-GP-PDU-MIB')) {
+        bless $self, 'Classes::Liebert';
+        $self->debug('using Classes::Liebert');
       } else {
         if (my $class = $self->discover_suitable_class()) {
           bless $self, $class;
