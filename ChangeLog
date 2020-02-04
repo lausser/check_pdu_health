@@ -1,3 +1,5 @@
+* 2020-02-04 2.4.0.1
+  fix a bug for PowerMIB devices which don't implement all voltage oids
 * 2016-12-05 2.4
   support Emerson Liebert
 * 2016-08-12 2.3.1.1

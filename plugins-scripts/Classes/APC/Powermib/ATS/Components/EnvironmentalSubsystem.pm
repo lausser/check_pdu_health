@@ -25,6 +25,7 @@ sub check {
   $self->add_info('status is '.$self->{atsStatusHardwareStatus});
   foreach my $item (qw(atsStatus24VPowerSupply atsStatus24VSourceBPowerSupply
       atsStatus5VPowerSupply atsStatusMinus12VPowerSupply atsStatusPlus12VPowerSupply)) {
+    next if ! defined $self->{$item};
     $self->add_info(sprintf "%s is %s", $item, $self->{$item});
     if ($self->{$item} ne "atsPowerSupplyOK") {
       $self->add_critical();
