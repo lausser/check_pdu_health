@@ -1,3 +1,5 @@
+* 2022-02-22 2.4.0.2
+  output full message for raritan/rittal sensors
 * 2020-02-04 2.4.0.1
   fix a bug for PowerMIB devices which don't implement all voltage oids
 * 2016-12-05 2.4

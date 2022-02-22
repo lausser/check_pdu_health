@@ -5,9 +5,7 @@ sub init {
   my $self = shift;
   if ($self->mode =~ /device::hardware::health/) {
     $self->analyze_and_check_environmental_subsystem('Classes::Raritan::Components::ExternalSensorSubsystem');
-    if (! $self->check_messages()) {
-      $self->add_ok('hardware working fine');
-    }
+    $self->reduce_messages_short("hardware working fine");
   } elsif ($self->mode =~ /device::power::health/) {
     $self->analyze_and_check_environmental_subsystem('Classes::Raritan::Components::InletSensorSubsystem');
     if (! $self->check_messages()) {

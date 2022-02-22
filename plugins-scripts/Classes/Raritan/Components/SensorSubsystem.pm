@@ -164,6 +164,7 @@ sub check {
           $self->{SensorType}, $self->{SensorName}, $self->{SensorState});
     }
     if (grep { $self->{SensorState} eq $_ } qw(normal closed on ok inSync)) {
+      $self->add_ok();
     } else {
       $self->add_critical();
     }
@@ -197,7 +198,7 @@ our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package Classes::Raritan::Components::EnvironmentalSubsystem::ExternalSensor;
-our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem Classes::Raritan::Components::EnvironmentalSubsystem::Sensor);
+our @ISA = qw(Classes::Raritan::Components::EnvironmentalSubsystem::Sensor Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 sub finish {
