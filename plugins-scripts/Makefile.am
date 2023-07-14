@@ -11,6 +11,7 @@ GL_MODULES=\
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/Item.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/TableItem.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids.pm \
+  ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/SNMPV2TCV1MIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/LIEBERTGPCONDITIONSMIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/LIEBERTGPENVIRONMENTALMIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/LIEBERTGPPOWERMIB.pm \
@@ -23,7 +24,9 @@ GL_MODULES=\
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/PDU2MIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/SENTRY3MIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/SENTRY4MIB.pm \
-  ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/POWERNETMIB.pm
+  ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/POWERNETMIB.pm \
+  ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/GEISTV4MIB.pm \
+  ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/VERTIV-V5-MIB.pm
 EXTRA_MODULES=\
   Classes/HWG/Damocles/Components/SensorSubsystem.pm \
   Classes/HWG/Damocles/Components/PowerSubsystem.pm \
@@ -45,6 +48,9 @@ EXTRA_MODULES=\
   Classes/Liebert/Components/EnvironmentalSubsystem.pm \
   Classes/Liebert/Components/PowerSubsystem.pm \
   Classes/Liebert.pm \
+  Classes/Vertiv/V5/Components/EnvironmentalSubsystem.pm \
+  Classes/Vertiv/V5/Components/PowerSubsystem.pm \
+  Classes/Vertiv/V5.pm \
   Classes/Device.pm
 
 SED=/bin/sed

@@ -16,30 +16,25 @@ sub classify {
         $self->load_my_extension();
       } elsif ($self->get_snmp_object('PowerNet-MIB', 'atsIdentModelNumber') ||
           $self->get_snmp_object('PowerNet-MIB', 'atsIdentSerialNumber')) {
-        bless $self, 'Classes::APC::Powermib::ATS';
-        $self->debug('using Classes::APC::Powermib::ATS');
+        $self->rebless('Classes::APC::Powermib::ATS');
       } elsif ($self->implements_mib('PDU2-MIB')) {
-        bless $self, 'Classes::Raritan';
-        $self->debug('using Classes::Raritan');
+        $self->rebless('Classes::Raritan');
       } elsif ($self->implements_mib('Sentry3-MIB')) {
-        bless $self, 'Classes::Sentry3';
-        $self->debug('using Classes::Sentry3');
+        $self->rebless('Classes::Sentry3');
       } elsif ($self->implements_mib('Sentry4-MIB')) {
-        bless $self, 'Classes::Sentry4';
-        $self->debug('using Classes::Sentry4');
+        $self->rebless('Classes::Sentry4');
       } elsif ($self->implements_mib('DAMOCLES-MIB')) {
-        bless $self, 'Classes::HWG::Damocles';
-        $self->debug('using Classes::HWG::Damocles');
+        $self->rebless('Classes::HWG::Damocles');
       } elsif ($self->implements_mib('LIEBERT-GP-PDU-MIB')) {
-        bless $self, 'Classes::Liebert';
-        $self->debug('using Classes::Liebert');
+        $self->rebless('Classes::Liebert');
+      } elsif ($self->implements_mib('VERTIV-V5-MIB')) {
+        $self->rebless('Classes::Vertiv::V5');
       } else {
         if (my $class = $self->discover_suitable_class()) {
           bless $self, $class;
-          $self->debug('using '.$class);
+          $self->rebless($class);
         } else {
-          bless $self, 'Classes::Generic';
-          $self->debug('using Classes::Generic');
+          $self->rebless('Classes::Generic');
         }
       }
     }

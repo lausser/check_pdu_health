@@ -1,3 +1,5 @@
+* 2023-07-14 2.5
+  support Vertiv v5
 * 2022-02-22 2.4.0.2
   output full message for raritan/rittal sensors
 * 2020-02-04 2.4.0.1
