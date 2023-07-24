@@ -1,3 +1,5 @@
+* 2023-07-24 3.0
+  restructured the plugin to make it more suitable and robust when used in an embedded perl worker
 * 2023-07-14 2.5
   support Vertiv v5
 * 2022-02-22 2.4.0.2

@@ -28,30 +28,30 @@ GL_MODULES=\
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/GEISTV4MIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/VERTIV-V5-MIB.pm
 EXTRA_MODULES=\
-  Classes/HWG/Damocles/Components/SensorSubsystem.pm \
-  Classes/HWG/Damocles/Components/PowerSubsystem.pm \
-  Classes/HWG/Damocles.pm \
-  Classes/HWG.pm \
-  Classes/APC/Powermib/ATS/Components/BatterySubsystem.pm \
-  Classes/APC/Powermib/ATS/Components/EnvironmentalSubsystem.pm \
-  Classes/APC/Powermib/ATS.pm \
-  Classes/APC/Powermib.pm \
-  Classes/APC.pm \
-  Classes/Sentry4/Components/EnvironmentalSubsystem.pm \
-  Classes/Sentry4/Components/PowerSubsystem.pm \
-  Classes/Sentry4.pm \
-  Classes/Sentry3/Components/EnvironmentalSubsystem.pm \
-  Classes/Sentry3/Components/PowerSubsystem.pm \
-  Classes/Sentry3.pm \
-  Classes/Raritan/Components/SensorSubsystem.pm \
-  Classes/Raritan.pm \
-  Classes/Liebert/Components/EnvironmentalSubsystem.pm \
-  Classes/Liebert/Components/PowerSubsystem.pm \
-  Classes/Liebert.pm \
-  Classes/Vertiv/V5/Components/EnvironmentalSubsystem.pm \
-  Classes/Vertiv/V5/Components/PowerSubsystem.pm \
-  Classes/Vertiv/V5.pm \
-  Classes/Device.pm
+  CheckPduHealth/HWG/Damocles/Components/SensorSubsystem.pm \
+  CheckPduHealth/HWG/Damocles/Components/PowerSubsystem.pm \
+  CheckPduHealth/HWG/Damocles.pm \
+  CheckPduHealth/HWG.pm \
+  CheckPduHealth/APC/Powermib/ATS/Components/BatterySubsystem.pm \
+  CheckPduHealth/APC/Powermib/ATS/Components/EnvironmentalSubsystem.pm \
+  CheckPduHealth/APC/Powermib/ATS.pm \
+  CheckPduHealth/APC/Powermib.pm \
+  CheckPduHealth/APC.pm \
+  CheckPduHealth/Sentry4/Components/EnvironmentalSubsystem.pm \
+  CheckPduHealth/Sentry4/Components/PowerSubsystem.pm \
+  CheckPduHealth/Sentry4.pm \
+  CheckPduHealth/Sentry3/Components/EnvironmentalSubsystem.pm \
+  CheckPduHealth/Sentry3/Components/PowerSubsystem.pm \
+  CheckPduHealth/Sentry3.pm \
+  CheckPduHealth/Raritan/Components/SensorSubsystem.pm \
+  CheckPduHealth/Raritan.pm \
+  CheckPduHealth/Liebert/Components/EnvironmentalSubsystem.pm \
+  CheckPduHealth/Liebert/Components/PowerSubsystem.pm \
+  CheckPduHealth/Liebert.pm \
+  CheckPduHealth/Vertiv/V5/Components/EnvironmentalSubsystem.pm \
+  CheckPduHealth/Vertiv/V5/Components/PowerSubsystem.pm \
+  CheckPduHealth/Vertiv/V5.pm \
+  CheckPduHealth/Device.pm
 
 SED=/bin/sed
 GREP=/bin/grep
@@ -87,18 +87,18 @@ AM_INSTALL_PROGRAM_FLAGS=@INSTALL_OPTS@
 
 $(libexec_SCRIPTS) : $(EXTRA_DIST)
 	$(ECHO) "#! #PERL# -w" | $(AWK) -f ./subst > $@
-	$(ECHO) "# nagios: -epn" >> $@
+	$(ECHO) "# nagios: +epn" >> $@
 	$(ECHO) >> $@
 	if [ "${STANDALONE}" == "yes" ]; then \
 		$(ECHO) i am standalone; \
 		for m in ${GL_MODULES}; do \
-			$(SED) -e 's/^1;//g' < $$m | $(SED) -e '/^__END__/,$$d' | $(AWK) -f ./subst >> $@; \
+			$(SED) -e 's/^1;//g' < $$m | $(SED) -e '/^__END__/,$$d' | $(SED) -e '/^__PACKAGE__/,$$d' | $(AWK) -f ./subst >> $@; \
 		done \
 	fi
 	for m in ${EXTRA_MODULES}; do \
 		$(SED) -e 's/^1;//g' < $$m | $(SED) -e '/^__END__/,$$d' | $(AWK) -f ./subst >> $@; \
 	done
-	$(ECHO) "package main;" >> $@
+	$(ECHO) >> $@
 	$(CAT) $(libexec_SCRIPTS).pl | $(AWK) -f ./subst >> $@
 	chmod +x $@
 
