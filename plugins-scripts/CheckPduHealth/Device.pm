@@ -39,6 +39,7 @@ sub classify {
       }
     }
   }
+  $self->{generic_class} = "CheckPduHealth::Generic";
   return $self;
 }
 

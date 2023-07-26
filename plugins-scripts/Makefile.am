@@ -26,7 +26,7 @@ GL_MODULES=\
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/SENTRY4MIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/POWERNETMIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/GEISTV4MIB.pm \
-  ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/VERTIV-V5-MIB.pm
+  ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/VERTIVV5MIB.pm
 EXTRA_MODULES=\
   CheckPduHealth/HWG/Damocles/Components/SensorSubsystem.pm \
   CheckPduHealth/HWG/Damocles/Components/PowerSubsystem.pm \
