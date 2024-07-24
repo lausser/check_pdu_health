@@ -1,3 +1,5 @@
+* 2024-07-24 3.0.1.1
+  bugfix in PDU2 OnOff Sensor
 * 2023-10-06 3.0.1
   update PDU2-MIB and Monitoring::GLPlugin
 * 2023-07-24 3.0

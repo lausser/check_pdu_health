@@ -209,6 +209,9 @@ sub finish {
   } elsif ($self->{externalSensorType} eq 'humidity') {
     bless $self, 'CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::HumiditySensor';
     $self->finish2();
+  } elsif ($self->{externalSensorType} eq 'onOff') {
+    bless $self, 'CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::OnOffSensor';
+    $self->finish2();
   }
 }
 
@@ -280,8 +283,26 @@ our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::OnOffSensor;
-our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
+our @ISA = qw(CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::ThresholdEnabledSensor Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
+
+sub finish2 {
+  my $self = shift;
+  $self->{externalSensorUnits} = '';
+}
+
+sub check {
+  my $self = shift;
+  if ($self->{SensorIsAvailable} eq 'true') {
+    $self->add_info(sprintf '%s sensor %s is %s',
+        $self->{SensorType}, $self->{SensorName}, $self->{SensorState});
+    if (grep { $self->{SensorState} eq $_ } qw(normal closed on ok inSync)) {
+      $self->add_ok();
+    } else {
+      $self->add_critical();
+    }
+  }
+}
 
 package CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::TripSensor;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
@@ -294,6 +315,11 @@ use strict;
 package CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::WaterDetectionSensor;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
+
+sub finish2 {
+  my $self = shift;
+  $self->{externalSensorUnits} = '';
+}
 
 package CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::SmokeDetectionSensor;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
