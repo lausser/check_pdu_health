@@ -66,6 +66,9 @@ our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem CheckPduHealth::Raritan::Com
 
 sub check {
   my $self = shift;
+  if (! exists $self->{perflabel_prefix}) {
+    $self->{perflabel_prefix} = "sensor_";
+  }
   if ($self->{SensorIsAvailable} eq 'true') {
     $self->add_info(sprintf '%s sensor %s is %s',
         $self->{SensorType}, $self->{SensorName}, $self->{SensorState});
@@ -74,7 +77,7 @@ sub check {
         $self->{SensorValue}, $self->{SensorUnits});
     $self->make_thresholds();
     my $level = $self->check_thresholds(
-        metric => 'sensor_'.$self->{SensorName},
+        metric => $self->{perflabel_prefix}.$self->{SensorName},
         value => $self->{SensorValue},
     );
     if ($level || $self->{SensorState} =~ /(below|above)/) {
@@ -84,7 +87,7 @@ sub check {
     } else {
       $self->add_ok();
     }
-    $self->add_perfdata(label => 'sensor_'.$self->{SensorName},
+    $self->add_perfdata(label => $self->{perflabel_prefix}.$self->{SensorName},
         value => $self->{SensorValue},
         thresholds => 1,
         uom => $self->{SensorUnits} eq '%' ? '%' : undef,
@@ -146,12 +149,16 @@ use strict;
 
 sub check {
   my $self = shift;
+  if (! exists $self->{perflabel_prefix}) {
+    $self->{perflabel_prefix} = "sensor_";
+  }
   if ($self->{SensorIsAvailable} eq 'true') {
     if (defined $self->{SensorValue} =~ /^\d+$/) {
       $self->add_info(sprintf '%s sensor %s is %s (%.2f %s)',
           $self->{SensorType}, $self->{SensorName}, $self->{SensorState},
           $self->{SensorValue}, $self->{SensorUnits});
-      my $label = sprintf 'sensor_%s%s', $self->{SensorName},
+      my $label = sprintf '%s%s%s', $self->{perflabel_prefix},
+          $self->{SensorName},
           $self->{SensorType} eq 'inlet' && $self->{SensorUnits} ?
           '_'.$self->{SensorUnits} : '';
       $self->add_perfdata(label => $label,
@@ -203,6 +210,7 @@ use strict;
 
 sub finish {
   my $self = shift;
+  $self->{perflabel_prefix} = "";
   if ($self->{externalSensorType} eq 'temperature') {
     bless $self, 'CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::TemperatureSensor';
     $self->finish2();
@@ -260,6 +268,7 @@ our @ISA = qw(CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::Thres
 use strict;
 sub finish2 {
   my $self = shift;
+  $self->{perflabel_prefix} = "temp_";
   $self->{externalSensorUnits} = 'C' if $self->{externalSensorUnits} eq 'degreeC';
   $self->{externalSensorUnits} = 'F' if $self->{externalSensorUnits} eq 'degreeF';
   $self->{externalSensorUnits} = '' if $self->{externalSensorUnits} eq 'degrees';
@@ -271,6 +280,7 @@ use strict;
 
 sub finish2 {
   my $self = shift;
+  $self->{perflabel_prefix} = "hum_";
   $self->{externalSensorUnits} = '%';
 }
 
@@ -288,6 +298,7 @@ use strict;
 
 sub finish2 {
   my $self = shift;
+  $self->{perflabel_prefix} = "onoff_";
   $self->{externalSensorUnits} = '';
 }
 

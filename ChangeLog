@@ -1,3 +1,5 @@
+* 2024-10-08 3.0.2
+  bugfix in PDU2 perfdata. temp and hum may have the same sensor name, now it's prefixed
 * 2024-07-24 3.0.1.1
   bugfix in PDU2 OnOff Sensor
 * 2023-10-06 3.0.1
