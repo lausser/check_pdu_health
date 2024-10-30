@@ -211,6 +211,10 @@ use strict;
 sub finish {
   my $self = shift;
   $self->{perflabel_prefix} = "";
+  if (! $self->{externalSensorName}) {
+    $self->{externalSensorName} = $self->{externalSensorPosition};
+    $self->{externalSensorName} =~ s/[^a-zA-Z0-9\-]/_/g;
+  }
   if ($self->{externalSensorType} eq 'temperature') {
     bless $self, 'CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::TemperatureSensor';
     $self->finish2();
