@@ -1,3 +1,7 @@
+* 2025-05-05 3.0.2.2
+  update glplugin and version
+* 2025-04-22 3.0.2.1
+  workaround for 7.1.4 firmware of APC/Schneider ATS atsStatusVoltageOutStatus
 * 2024-10-08 3.0.2
   bugfix in PDU2 perfdata. temp and hum may have the same sensor name, now it's prefixed
 * 2024-07-24 3.0.1.1
