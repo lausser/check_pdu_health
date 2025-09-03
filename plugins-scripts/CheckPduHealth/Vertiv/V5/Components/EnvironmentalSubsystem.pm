@@ -38,7 +38,13 @@ our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 
 sub check {
   my ($self) = @_;
-  return if ! $self->{a2dSensorAvail};
+  if ($self->{a2dSensorAvail} != 1) {
+    # "Device availability:
+    # 0 = Unavailable
+    # 1 = Available
+    # 2 = Partially Unavailable"
+    return;
+  }
   $self->add_info(sprintf "a2d sensor %s/%s reports %s%s",
       $self->{a2dSensorAnalogLabel},
       $self->{a2dSensorLabel},
