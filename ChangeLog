@@ -1,6 +1,7 @@
+* 2025-09-03 3.1.1
+  add a2d sensors (flood, door, volt, leak)
 * 2025-09-03 3.1.0.1
   adjust default thresholds for Vertiv
-  add a2d sensors (flood, door, volt, leak)
 * 2025-08-07 3.1
   check t3hd sensors of Vertiv V5 devices
 * 2025-05-05 3.0.2.2
