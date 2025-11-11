@@ -27,7 +27,8 @@ GL_MODULES=\
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/SENTRY4MIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/POWERNETMIB.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/GEISTV4MIB.pm \
-  ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/VERTIVV5MIB.pm
+  ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/VERTIVV5MIB.pm \
+  ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/MibsAndOids/AVOCENTPMMIB.pm
 EXTRA_MODULES=\
   CheckPduHealth/HWG/Damocles/Components/SensorSubsystem.pm \
   CheckPduHealth/HWG/Damocles/Components/PowerSubsystem.pm \
@@ -52,6 +53,9 @@ EXTRA_MODULES=\
   CheckPduHealth/Vertiv/V5/Components/EnvironmentalSubsystem.pm \
   CheckPduHealth/Vertiv/V5/Components/PowerSubsystem.pm \
   CheckPduHealth/Vertiv/V5.pm \
+  CheckPduHealth/AvocentPM/Components/EnvironmentalSubsystem.pm \
+  CheckPduHealth/AvocentPM/Components/PowerSubsystem.pm \
+  CheckPduHealth/AvocentPM.pm \
   CheckPduHealth/Device.pm
 
 SED=/bin/sed
