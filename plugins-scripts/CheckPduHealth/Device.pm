@@ -29,6 +29,8 @@ sub classify {
         $self->rebless('CheckPduHealth::Liebert');
       } elsif ($self->implements_mib('VERTIV-V5-MIB')) {
         $self->rebless('CheckPduHealth::Vertiv::V5');
+      } elsif ($self->implements_mib('AVOCENT-PM-MIB')) {
+        $self->rebless('CheckPduHealth::AvocentPM');
       } else {
         if (my $class = $self->discover_suitable_class()) {
           bless $self, $class;
