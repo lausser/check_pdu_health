@@ -12,6 +12,7 @@ sub init {
       productManufacturer));
   $self->get_snmp_tables('VERTIV-V5-MIB', [
     ['t3hdsensors', 't3hdSensorTable', 'CheckPduHealth::Vertiv::V5::Components::EnvironmentalSubsystem::T3hdSensor'],
+    ['thdsensors', 'thdSensorTable', 'CheckPduHealth::Vertiv::V5::Components::EnvironmentalSubsystem::ThdSensor'],
     ['a2dsensors', 'a2dSensorTable', 'CheckPduHealth::Vertiv::V5::Components::EnvironmentalSubsystem::A2dSensor'],
   ]);
 
@@ -103,7 +104,7 @@ sub finish {
 sub check {
   my ($self) = @_;
   my $label = "";
-  $self->add_info(sprintf "t3hd sensor %s: %s temperature is %.2f, humidity is %.2f%%, dewpoint is %.2f%%",
+  $self->add_info(sprintf "t3hd sensor %s: %s temperature is %.2f, humidity is %.2f%%, dewpoint is %.2f",
       $self->{t3hdSensorLabel},
       $self->{t3hdSensorIntLabel},
       $self->{t3hdSensorIntTemp},
@@ -197,6 +198,60 @@ sub check {
     );
   }
 }
+
+package CheckPduHealth::Vertiv::V5::Components::EnvironmentalSubsystem::ThdSensor;
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
+use strict;
+
+sub finish {
+  my ($self) = @_;
+  $self->{thdSensorTemp} /= 10;
+  $self->{thdSensorDewPoint} /= 10;
+  $self->{label} = lc $self->{thdSensorLabel};
+}
+
+sub check {
+  my ($self) = @_;
+  if ($self->{thdSensorAvail} != 1) {
+    # "Device availability:
+    # 0 = Unavailable
+    # 1 = Available
+    # 2 = Partially Unavailable"
+    return;
+  }
+  $self->add_info(sprintf "thd sensor %s: temperature is %.2f, humidity is %.2f%%, dewpoint is %.2f",
+      $self->{thdSensorLabel},
+      $self->{thdSensorTemp},
+      $self->{thdSensorHumidity},
+      $self->{thdSensorDewPoint}
+  );
+
+  # temp
+  my $temp = $self->{label}."_temp";
+  my $hum = $self->{label}."_hum";
+  my $dewp = $self->{label}."_dewp";
+  $self->set_thresholds(metric => $temp,
+      warning => '0:50',
+      critical => '0:70',
+  );
+  $self->set_thresholds(metric => $hum,
+      warning => '70',
+      critical => '80',
+  );
+  my $level_temp = $self->check_thresholds(metric => $temp,
+      value => $self->{thdSensorTemp});
+  my $level_hum = $self->check_thresholds(metric => $hum,
+      value => $self->{thdSensorHumidity});
+  $self->add_message(($level_temp == 2 || $level_hum == 2) ? 2 : ($level_temp == 1 || $level_hum == 1) ? 1 : ($level_temp == 3 || $level_hum == 3) ? 3 : 0);
+  $self->add_perfdata(label => $temp,
+      value => $self->{thdSensorTemp});
+  $self->add_perfdata(label => $hum,
+      uom => "%",
+      value => $self->{thdSensorHumidity});
+  $self->add_perfdata(label => $dewp,
+      value => $self->{thdSensorDewPoint});
+}
+
 
 __END__
 VERTIV-V5-MIB::a2dSensorTable

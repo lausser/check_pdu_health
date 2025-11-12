@@ -1,3 +1,7 @@
+* 2025-11-12 3.3
+  initial support for Avocent PM1000/2000/3000 PDU series (PR#1)
+* 2025-09-05 3.2
+  add vertiv v5 thd sensors
 * 2025-09-03 3.1.1
   add a2d sensors (flood, door, volt, leak)
 * 2025-09-03 3.1.0.1

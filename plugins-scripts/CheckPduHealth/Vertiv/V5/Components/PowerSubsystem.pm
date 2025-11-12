@@ -48,6 +48,8 @@ sub check {
   } else {
     $self->add_ok();
   }
+  $self->add_perfdata(label => "total_real_power_w",
+      value => $self->{pduTotalRealPower});
 }
 
 
@@ -71,6 +73,15 @@ sub check {
       $self->{pduPhaseBalance}
   ));
   $self->add_ok();
+  $self->{name} = lc $self->{name};
+  $self->{name} =~ s/ /_/g;
+  $self->add_perfdata(label => $self->{name}."_v",
+      value => $self->{pduPhaseVoltage});
+  $self->add_perfdata(label => $self->{name}."_a",
+      value => $self->{pduPhaseCurrent});
+  $self->add_perfdata(label => $self->{name}."_balance",
+      uom => "%",
+      value => $self->{pduPhaseBalance});
 }
 
 
