@@ -17,6 +17,9 @@ sub classify {
       } elsif ($self->get_snmp_object('PowerNet-MIB', 'atsIdentModelNumber') ||
           $self->get_snmp_object('PowerNet-MIB', 'atsIdentSerialNumber')) {
         $self->rebless('CheckPduHealth::APC::Powermib::ATS');
+      } elsif ($self->get_snmp_object('PowerNet-MIB', 'sPDUIdentModelNumber') ||
+          $self->get_snmp_object('PowerNet-MIB', 'sPDUIdentSerialNumber')) {
+	  $self->rebless('CheckPduHealth::APC::Powermib::PDU');
       } elsif ($self->implements_mib('PDU2-MIB')) {
         $self->rebless('CheckPduHealth::Raritan');
       } elsif ($self->implements_mib('Sentry3-MIB')) {

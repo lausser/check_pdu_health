@@ -37,6 +37,9 @@ EXTRA_MODULES=\
   CheckPduHealth/APC/Powermib/ATS/Components/BatterySubsystem.pm \
   CheckPduHealth/APC/Powermib/ATS/Components/EnvironmentalSubsystem.pm \
   CheckPduHealth/APC/Powermib/ATS.pm \
+  CheckPduHealth/APC/Powermib/PDU/Components/PowerSubsystem.pm \
+  CheckPduHealth/APC/Powermib/PDU/Components/EnvironmentalSubsystem.pm \
+  CheckPduHealth/APC/Powermib/PDU.pm \
   CheckPduHealth/APC/Powermib.pm \
   CheckPduHealth/APC.pm \
   CheckPduHealth/Sentry4/Components/EnvironmentalSubsystem.pm \

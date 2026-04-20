@@ -1,3 +1,5 @@
+* 2026-04-16 3.4
+  add APC Rack PDU
 * 2025-11-12 3.3
   initial support for Avocent PM1000/2000/3000 PDU series (PR#1)
 * 2025-09-05 3.2
