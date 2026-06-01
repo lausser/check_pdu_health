@@ -70,24 +70,30 @@ sub check {
     $self->{perflabel_prefix} = "sensor_";
   }
   if ($self->{SensorIsAvailable} eq 'true') {
+    my $label = $self->{perflabel_prefix}.$self->{SensorName};
     $self->add_info(sprintf '%s sensor %s is %s',
         $self->{SensorType}, $self->{SensorName}, $self->{SensorState});
     $self->add_info(sprintf '%s sensor %s shows %s%s',
         $self->{SensorType}, $self->{SensorName},
         $self->{SensorValue}, $self->{SensorUnits});
-    $self->make_thresholds();
-    my $level = $self->check_thresholds(
-        metric => $self->{perflabel_prefix}.$self->{SensorName},
-        value => $self->{SensorValue},
-    );
-    if ($level || $self->{SensorState} =~ /(below|above)/) {
-      $self->add_message($level, sprintf '%s is out of range (%s%s)',
-          $self->{SensorName}, $self->{SensorValue},
-          $self->{SensorUnits});
+    $self->make_thresholds($label);
+    if (defined $self->{warning} || defined $self->{critical}) {
+      my $level = $self->check_thresholds(
+          metric => $label, value => $self->{SensorValue});
+      if ($level || $self->{SensorState} =~ /(below|above)/) {
+        $self->add_message($level, sprintf '%s is out of range (%s%s)',
+            $self->{SensorName}, $self->{SensorValue}, $self->{SensorUnits});
+      } else {
+        $self->add_ok();
+      }
     } else {
-      $self->add_ok();
+      if (grep { $self->{SensorState} eq $_ } qw(normal closed on ok inSync)) {
+        $self->add_ok();
+      } else {
+        $self->add_warning();
+      }
     }
-    $self->add_perfdata(label => $self->{perflabel_prefix}.$self->{SensorName},
+    $self->add_perfdata(label => $label,
         value => $self->{SensorValue},
         thresholds => 1,
         uom => $self->{SensorUnits} eq '%' ? '%' : undef,
@@ -96,50 +102,56 @@ sub check {
 }
 
 sub make_thresholds {
-  my $self = shift;
-  # 0 => 'lowerCritical', 1 => 'lowerWarning', 2 => 'upperWarning', 3 => 'upperCritical',
+  my ($self, $label) = @_;
+  # nibble after unpack: 0x8=lowerCritical 0x4=lowerWarning 0x2=upperWarning 0x1=upperCritical
   my $EnabledThresholds = $self->{SensorEnabledThresholds};
-  if ($EnabledThresholds =~ /^0x(\w)0/) {
+  if ($EnabledThresholds =~ /^[01]{8}$/) {
+    # BITS type as binary string from snmpwalk Hex-STRING (e.g. "11110000" = 0xf0)
+    $EnabledThresholds = oct("0b" . substr($EnabledThresholds, 0, 4));
+  } elsif ($EnabledThresholds =~ /^\d+$/) {
+    $EnabledThresholds = int($EnabledThresholds);
+  } elsif ($EnabledThresholds =~ /^0x(\w)0/) {
     $EnabledThresholds = hex $1;
   } elsif ($EnabledThresholds =~ /^(\w)0/) {
     $EnabledThresholds = hex $1;
   } else {
     $EnabledThresholds = hex unpack('H1', $EnabledThresholds);
   }
-  #$EnabledThresholds >>= 8;
   $EnabledThresholds &= 0xf;
-  # 0000 nix w
-  # 0010 lw
-  # 0100 uw
-  # 0110 luw
   $self->{warning} = undef;
-  if ($EnabledThresholds & 0x1a == 0x1a) {
+  if (($EnabledThresholds & 0x06) == 0x06 &&
+      $self->{SensorLowerWarningThreshold} != 0 &&
+      $self->{SensorUpperWarningThreshold} != 0) {
     $self->{warning} = sprintf "%.2f:%.2f",
         $self->{SensorLowerWarningThreshold},
         $self->{SensorUpperWarningThreshold};
-  } elsif ($EnabledThresholds & 0x10 == 0x10) {
+  } elsif (($EnabledThresholds & 0x02) == 0x02 &&
+           $self->{SensorUpperWarningThreshold} != 0) {
     $self->{warning} = sprintf "%.2f",
         $self->{SensorUpperWarningThreshold};
-  } elsif ($EnabledThresholds & 0x0a == 0x0a) {
+  } elsif (($EnabledThresholds & 0x04) == 0x04 &&
+           $self->{SensorLowerWarningThreshold} != 0) {
     $self->{warning} = sprintf "%.2f:",
         $self->{SensorLowerWarningThreshold};
   }
-  # 1000 uc
-  # 0001 lc
-  # 1001 ulc
   $self->{critical} = undef;
-  if ($EnabledThresholds & 0xa1 == 0xa1) {
+  if (($EnabledThresholds & 0x09) == 0x09 &&
+      $self->{SensorLowerCriticalThreshold} != 0 &&
+      $self->{SensorUpperCriticalThreshold} != 0) {
     $self->{critical} = sprintf "%.2f:%.2f",
         $self->{SensorLowerCriticalThreshold},
         $self->{SensorUpperCriticalThreshold};
-  } elsif ($EnabledThresholds & 0xa0 == 0xa0) {
+  } elsif (($EnabledThresholds & 0x01) == 0x01 &&
+           $self->{SensorUpperCriticalThreshold} != 0) {
     $self->{critical} = sprintf "%.2f",
         $self->{SensorUpperCriticalThreshold};
-  } elsif ($EnabledThresholds & 0x01 == 0x01) {
+  } elsif (($EnabledThresholds & 0x08) == 0x08 &&
+           $self->{SensorLowerCriticalThreshold} != 0) {
     $self->{critical} = sprintf "%.2f:",
         $self->{SensorLowerCriticalThreshold};
   }
-  $self->set_thresholds(metric => 'sensor_'.$self->{SensorName},
+  $label = $self->{perflabel_prefix}.$self->{SensorName} unless defined $label;
+  $self->set_thresholds(metric => $label,
       warning => $self->{warning}, critical => $self->{critical});
 }
 
@@ -173,7 +185,7 @@ sub check {
     if (grep { $self->{SensorState} eq $_ } qw(normal closed on ok inSync)) {
       $self->add_ok();
     } else {
-      $self->add_critical();
+      $self->add_warning();
     }
   }
 }
@@ -224,8 +236,14 @@ sub finish {
   } elsif ($self->{externalSensorType} eq 'onOff') {
     bless $self, 'CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::OnOffSensor';
     $self->finish2();
+  } else {
+    bless $self, 'CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::GenericNumericSensor';
   }
 }
+
+package CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::GenericNumericSensor;
+our @ISA = qw(CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::ThresholdEnabledSensor Monitoring::GLPlugin::SNMP::TableItem);
+use strict;
 
 package CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::InternalSensor;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
@@ -413,13 +431,45 @@ our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 package CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::InletSensor;
-our @ISA = qw(CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::Sensor Monitoring::GLPlugin::SNMP::TableItem);
+our @ISA = qw(CheckPduHealth::Raritan::Components::EnvironmentalSubsystem::ThresholdEnabledSensor Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 sub finish {
   my $self = shift;
   $self->{inletSensorType} = 'inlet';
   $self->{inletSensorName} = $self->{flat_indices};
+}
+
+sub check {
+  my $self = shift;
+  if ($self->{SensorIsAvailable} eq 'true') {
+    my $label = 'sensor_'.$self->{SensorName}.
+        ($self->{SensorUnits} ? '_'.$self->{SensorUnits} : '');
+    $self->add_info(sprintf '%s sensor %s is %s (%.2f %s)',
+        $self->{SensorType}, $self->{SensorName}, $self->{SensorState},
+        $self->{SensorValue}, $self->{SensorUnits});
+    $self->make_thresholds($label);
+    if (defined $self->{warning} || defined $self->{critical}) {
+      my $level = $self->check_thresholds(
+          metric => $label, value => $self->{SensorValue});
+      if ($level || $self->{SensorState} =~ /(below|above)/) {
+        $self->add_message($level, sprintf '%s is out of range (%s %s)',
+            $self->{SensorName}, $self->{SensorValue}, $self->{SensorUnits});
+      } else {
+        $self->add_ok();
+      }
+    } else {
+      if (grep { $self->{SensorState} eq $_ } qw(normal closed on ok inSync)) {
+        $self->add_ok();
+      } else {
+        $self->add_warning();
+      }
+    }
+    $self->add_perfdata(label => $label,
+        value => $self->{SensorValue},
+        thresholds => 1,
+        uom => $self->{SensorUnits} eq '%' ? '%' : undef);
+  }
 }
 
 

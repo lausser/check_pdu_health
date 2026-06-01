@@ -1,3 +1,5 @@
+* 2026-05-22 3.4.1.1
+  bugfix in Raritan sensors, use the device's own thresholds
 * 2026-04-20 3.4.1
   update GLPlugin
 * 2026-04-16 3.4
