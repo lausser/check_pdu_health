@@ -69,7 +69,8 @@ sub check {
   if (! exists $self->{perflabel_prefix}) {
     $self->{perflabel_prefix} = "sensor_";
   }
-  if ($self->{SensorIsAvailable} eq 'true') {
+  if ($self->{SensorIsAvailable} eq 'true'
+      && $self->{SensorState} ne 'unavailable') {
     my $label = $self->{perflabel_prefix}.$self->{SensorName};
     $self->add_info(sprintf '%s sensor %s is %s',
         $self->{SensorType}, $self->{SensorName}, $self->{SensorState});
@@ -164,7 +165,8 @@ sub check {
   if (! exists $self->{perflabel_prefix}) {
     $self->{perflabel_prefix} = "sensor_";
   }
-  if ($self->{SensorIsAvailable} eq 'true') {
+  if ($self->{SensorIsAvailable} eq 'true'
+      && $self->{SensorState} ne 'unavailable') {
     if (defined $self->{SensorValue} =~ /^\d+$/) {
       $self->add_info(sprintf '%s sensor %s is %s (%.2f %s)',
           $self->{SensorType}, $self->{SensorName}, $self->{SensorState},
@@ -326,7 +328,8 @@ sub finish2 {
 
 sub check {
   my $self = shift;
-  if ($self->{SensorIsAvailable} eq 'true') {
+  if ($self->{SensorIsAvailable} eq 'true'
+      && $self->{SensorState} ne 'unavailable') {
     $self->add_info(sprintf '%s sensor %s is %s',
         $self->{SensorType}, $self->{SensorName}, $self->{SensorState});
     if (grep { $self->{SensorState} eq $_ } qw(normal closed on ok inSync)) {
@@ -442,7 +445,8 @@ sub finish {
 
 sub check {
   my $self = shift;
-  if ($self->{SensorIsAvailable} eq 'true') {
+  if ($self->{SensorIsAvailable} eq 'true'
+      && $self->{SensorState} ne 'unavailable') {
     my $label = 'sensor_'.$self->{SensorName}.
         ($self->{SensorUnits} ? '_'.$self->{SensorUnits} : '');
     $self->add_info(sprintf '%s sensor %s is %s (%.2f %s)',

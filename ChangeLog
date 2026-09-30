@@ -1,3 +1,7 @@
+* 2026-09-30 3.4.1.2
+  bugfix in Raritan sensors: complete PDU2-MIB enum maps from the current 2025-04-28 MIB
+  (fixes unknown sensor type/state/units)
+  Skip sensor slots in the unavailable state
 * 2026-05-22 3.4.1.1
   bugfix in Raritan sensors, use the device's own thresholds
 * 2026-04-20 3.4.1
