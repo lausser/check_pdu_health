@@ -14,6 +14,9 @@ sub classify {
       }
       if ($self->opts->mode =~ /^my-/) {
         $self->load_my_extension();
+      } elsif ($self->rebless_from_classification_cache()) {
+        # the vendor class was found less than 5 minutes ago by a previous
+        # run and has been restored, so the probing below is skipped
       } elsif ($self->get_snmp_object('PowerNet-MIB', 'atsIdentModelNumber') ||
           $self->get_snmp_object('PowerNet-MIB', 'atsIdentSerialNumber')) {
         $self->rebless('CheckPduHealth::APC::Powermib::ATS');
@@ -45,6 +48,8 @@ sub classify {
     }
   }
   $self->{generic_class} = "CheckPduHealth::Generic";
+  # remember the vendor class found above, so that the next runs can skip the probing
+  $self->save_classification_cache();
   return $self;
 }
 
