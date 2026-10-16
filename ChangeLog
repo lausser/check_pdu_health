@@ -1,3 +1,7 @@
+* 2026-10-16 3.4.2.1
+  fix Liebert PDU status decode: repair line-wrapped decoder reference in
+  LIEBERTGPPDUMIB.pm (lgpPduEntrySysStatus decoded to unknown_1 instead of
+  the vendor state name, forcing every Liebert power-health run to UNKNOWN)
 * 2026-10-02 3.4.2
   cache the classification result
 * 2026-09-30 3.4.1.2
