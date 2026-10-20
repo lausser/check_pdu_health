@@ -1,3 +1,8 @@
+* 2026-10-20 3.4.2.3
+  fix Liebert power-source neutral-current scale: lgpPduPsEntryEcNeutral is in
+  0.1 A like the rated current but was not scaled, inflating the load perfdata
+  10x (e.g. 212.50% instead of 21.25%) and the info-line amperage (34.00A
+  instead of 3.40A), causing false over-current alerts in the monitoring backend
 * 2026-10-20 3.4.2.2
   fix Liebert PDU status decode: correct the lgpPduEntrySysStatus bit-field test
   (multi-digit values decoded to wrong state lists, e.g. 16 -> normalOperation)

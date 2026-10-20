@@ -71,6 +71,7 @@ sub finish {
   my $self = shift;
   $self->{label} = $self->{lgpPduPsEntrySysAssignLabel};
   $self->{lgpPduPsEntryEcInputRated} /= 10.0;
+  $self->{lgpPduPsEntryEcNeutral} /= 10.0;
 }
 
 sub check {
