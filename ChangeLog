@@ -1,3 +1,8 @@
+* 2026-10-20 3.4.2.2
+  fix Liebert PDU status decode: correct the lgpPduEntrySysStatus bit-field test
+  (multi-digit values decoded to wrong state lists, e.g. 16 -> normalOperation)
+  and catch abnormalOperation before normalOperation in the verdict (alarm/
+  abnormal states no longer verdict silent OK)
 * 2026-10-16 3.4.2.1
   fix Liebert PDU status decode: repair line-wrapped decoder reference in
   LIEBERTGPPDUMIB.pm (lgpPduEntrySysStatus decoded to unknown_1 instead of

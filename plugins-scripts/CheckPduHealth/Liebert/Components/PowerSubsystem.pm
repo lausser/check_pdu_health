@@ -50,7 +50,9 @@ sub check {
   my $self = shift;
   $self->add_info(sprintf 'pdu %s status is %s',
       $self->{label}, $self->{lgpPduEntrySysStatus});
-  if ($self->{lgpPduEntrySysStatus} =~ /(normalOperation)|(startUp)/) {
+  if ($self->{lgpPduEntrySysStatus} =~ /abnormalOperation/) {
+    $self->add_critical();
+  } elsif ($self->{lgpPduEntrySysStatus} =~ /(normalOperation)|(startUp)/) {
     $self->add_ok();
   } elsif ($self->{lgpPduEntrySysStatus} =~ /(normalWithWarning)/) {
     $self->add_warning();
